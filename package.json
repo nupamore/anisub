@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "htmlparser2": "^3.9.2",
+    "request": "^2.79.0"
+  }
+}
