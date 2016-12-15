@@ -1,0 +1,30 @@
+{
+  "URL": {
+    "//": "API link",
+    "OHLI": {
+      "SITE": "http://ohli.moe/",
+      "ANI": {
+        "NOW": "http://ohli.moe/list/now",
+        "DAY": "http://ohli.moe/anitime/list?w=<w>",
+        "END": "http://ohli.moe/list/end",
+        "LAST": "http://ohli.moe/timetable/last.json?size=<size>"
+      },
+      "CAPTION": "http://ohli.moe/cap/<ani>",
+      "CACHE": "http://ohli.moe/CacheList?blog=<blog>&ani=<ani>"
+    },
+    "ANISSIA": {
+      "SITE": "http://www.anissia.net/",
+      "ANI": {
+        "DAY": "http://www.anissia.net/anitime/list?w=<w>",
+        "END": "http://www.anissia.net/anitime/end?p=<p>"
+      },
+      "CAPTION": "http://www.anissia.net/anitime/cap?i=<i>"
+    }
+  },
+
+  "FILE": {
+    "//": "File system",
+
+    "DIR": "download"
+  }
+}
