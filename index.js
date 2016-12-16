@@ -1,86 +1,8 @@
 
+const Promise = require('bluebird')
+
 const parser = require('./lib/parser.js')
 const file = require('./lib/file.js')
-
-/*
-const temp = function temp( ...params ){
-  if( typeof params[0] == 'object' ){
-    var {keyword, user, ep, filter = false} = params[0]
-  }
-  else{
-    var [keyword, user, ep, filter = false] = params
-  }
-
-  async.waterfall([
-    // 작품 검색
-    cb => parser.getAnimeList( keyword, (err, result) => {
-      // 에러
-      if( err ){
-        cb(err)
-      }
-      // 작품이 하나가 아닌 경우
-      else if( result.length != 1){
-        cb( new Error(`검색된 작품이 하나가 아닙니다. (length:${result.length})`) )
-      }
-      // 정상
-      else{
-        cb(null, result[0].i)
-      }
-    }),
-
-    // 자막제작자 검색
-    (aniId, cb) => parser.getCaptionList( aniId, (err, result) => {
-      // 에러
-      if( err ){
-        cb(err)
-      }
-      // 정상
-      else{
-        const users = result.filter( u => u.n.match(user) )
-        // 한 명이 아닌 경우
-        if( users.length != 1){
-          cb( new Error(`검색된 자막제작자가 한 명이 아닙니다. (length:${users.length})`) )
-        }
-        // 정상
-        else{
-          cb(null, users[0].b, aniId)
-        }
-      }
-    }),
-
-    // 캐시 검색
-    (userId, aniId, cb) => parser.getCache( userId, aniId, (err, result) => {
-      // 에러
-      if( err ){
-        cb(err)
-      }
-      else if( !result ){
-        cb( new Error(`캐시를 찾을 수 없습니다. (length:${result.length})`) )
-      }
-      // 정상
-      else{
-        const eps = {
-          // ep가 생략되었을 경우 최신화로 간주
-          undefined: [result[0]],
-          // 숫자일 경우 정확히 비교
-          number: result.filter( e => e.s == ep ),
-          // 문자일 경우 느슨한 비교
-          string: result.filter( e => (e.s+'').match(ep) ),
-        }[ typeof ep ]
-
-        const files = eps.map( e => e.file.filter(f => !f.match(filter))[0] )
-
-        cb(null, files)
-      }
-    }),
-  ],
-  (err, result) => {
-    if(err) console.log(err)
-    console.log(result)
-  })
-}
-*/
-
 
 const anisub = {
   parser,
@@ -93,28 +15,61 @@ const anisub = {
    * @return {Promise}
    */
   check( keyword, user ){
-
     return new Promise( (resolve, reject) => {
+
       parser.anime( keyword )
+      .bind( b = {} )
+
       // 애니메이션 선택
       .then( list => {
-        const ani = list[0]
-        if(!ani) reject( new Error('애니메이션을 찾을 수 없습니다') )
+        b.ani = list[0]
+        if(!b.ani) reject( new Error('애니메이션을 찾을 수 없습니다') )
 
-        this.aniId = ani.i
-        console.log(`애니메이션: ${ani.s}`)
-        return parser.subtitle(this.aniId)
+        console.log(`애니메이션: ${b.ani.s}`)
+        return parser.subtitle(b.ani.i)
       })
+
       // 자막제작자 선택
       .then( list => {
-        const u = list.filter( u => u.n.match(user) )[0] || list[0]
-        if(!u) reject( new Error('자막을 찾을 수 없습니다') )
+        b.subtitle = list.filter( u => u.n.match(user) )[0] || list[0]
+        if(!b.subtitle) reject( new Error('자막을 찾을 수 없습니다') )
 
-        this.userId = u.b
-        console.log(`자막제작자: ${u.n}`)
-        console.log(`에피소드: ${u.s}화`)
-        resolve( u.s )
+        console.log(`자막제작자: ${b.subtitle.n}`)
+        console.log(`에피소드: ${b.subtitle.s}화\n`)
+        resolve(b)
       })
+
+      .catch( err => reject(err) )
+    })
+  },
+
+
+  /**
+   * 자막 다운로드
+   * @param  {Object}  checked 체크결과
+   * @param  {Regex}   filter  필터
+   * @return {Promise}
+   */
+  down( checked, filter ){
+    const { ani, subtitle } = checked
+    return new Promise( (resolve, reject) => {
+
+      parser.cache( ani.i, subtitle.b )
+      .then( json => {
+        if(!json) reject( new Error('캐시를 찾을 수 없습니다') )
+
+        const ep = json.find( ep => (ep.s+'').match(subtitle.s) )
+        const files = ep.file.filter( file => {
+          console.log( file )
+          return file.match(filter)
+        })
+        console.log()
+
+        files.forEach( file => {
+          console.log( `다운로드: ${file}` )
+        })
+      })
+
       .catch( err => reject(err) )
     })
   },
@@ -123,6 +78,6 @@ const anisub = {
 
 module.exports = anisub
 
-anisub.check('애니제목', '자막제작자')
-.then( ep => console.log(ep) )
+anisub.check('애니이름', '자막제작자')
+.then( result => anisub.down(result, '.zip') )
 .catch( err => console.log(err) )
