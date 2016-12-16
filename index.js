@@ -1,11 +1,9 @@
 
-const async = require('async')
-
 const parser = require('./lib/parser.js')
 const file = require('./lib/file.js')
 
-
-const anisub = function anisub( ...params ){
+/*
+const temp = function temp( ...params ){
   if( typeof params[0] == 'object' ){
     var {keyword, user, ep, filter = false} = params[0]
   }
@@ -81,11 +79,50 @@ const anisub = function anisub( ...params ){
     console.log(result)
   })
 }
+*/
 
-anisub.parser = parser
-anisub.file = file
+
+const anisub = {
+  parser,
+  file,
+
+  /**
+   * 최신화 체크
+   * @param  {Regex}  keyword 검색어
+   * @param  {Regex}  user    자막제작자
+   * @return {Promise}
+   */
+  check( keyword, user ){
+
+    return new Promise( (resolve, reject) => {
+      parser.anime( keyword )
+      // 애니메이션 선택
+      .then( list => {
+        const ani = list[0]
+        if(!ani) reject( new Error('애니메이션을 찾을 수 없습니다') )
+
+        this.aniId = ani.i
+        console.log(`애니메이션: ${ani.s}`)
+        return parser.subtitle(this.aniId)
+      })
+      // 자막제작자 선택
+      .then( list => {
+        const u = list.filter( u => u.n.match(user) )[0] || list[0]
+        if(!u) reject( new Error('자막을 찾을 수 없습니다') )
+
+        this.userId = u.b
+        console.log(`자막제작자: ${u.n}`)
+        console.log(`에피소드: ${u.s}화`)
+        resolve( u.s )
+      })
+      .catch( err => reject(err) )
+    })
+  },
+
+}
+
 module.exports = anisub
 
-
-// test
-anisub('aniname', 'username')
+anisub.check('애니제목', '자막제작자')
+.then( ep => console.log(ep) )
+.catch( err => console.log(err) )
