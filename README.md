@@ -67,4 +67,4 @@ anisub.now( '애니제목' )
 `anisub.file.download( url, filename ) :Promise`  
 `anisub.file.listZip( zipname ) :array`  
 `anisub.file.unZip( zipname, filename )`  
-`anisub.file.unLinkSync( filename )`  
+`anisub.file.unlinkSync( filename )`  
