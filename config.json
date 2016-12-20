@@ -7,6 +7,10 @@
         "DAY": "http://www.anissia.net/anitime/list?w=<w>",
         "END": "http://www.anissia.net/anitime/end?p=<p>"
       },
+      "NUM": {
+        "DAY": 8,
+        "END": 8
+      },
       "CAPTION": "http://www.anissia.net/anitime/cap?i=<i>"
     },
     "OHLI": {
@@ -17,7 +21,10 @@
         "END": "http://ohli.moe/list/end",
         "LAST": "http://ohli.moe/timetable/last.json?size=<size>"
       },
-      "CAPTION": "http://ohli.moe/timetable/cap?i=<ani>",
+      "NUM": {
+        "DAY": 7
+      },
+      "CAPTION": "http://ohli.moe/timetable/cap?i=<i>",
       "CACHE": "http://ohli.moe/CacheList?blog=<blog>&ani=<ani>"
     }
   },

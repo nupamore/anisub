@@ -2,7 +2,7 @@
 애니메이션 한국어 자막 API
 
 http://www.anissia.net/?m=1&b=4  
-~~http://ohli.moe/api~~ (미구현)
+http://ohli.moe/api  (종영 미지원)
 
 <br>
 
@@ -17,11 +17,9 @@ http://www.anissia.net/?m=1&b=4
 const anisub = require('anisub')
 
 // 최신화 검색
-anisub.now( '애니' )
+anisub.now( '애니제목' )
 // 자막 다운로드
 .then( result => anisub.down(result) )
-// 결과
-.then( file => console.log(file) )
 ```
 
 ###API
@@ -36,6 +34,11 @@ anisub.now( '애니' )
 <br>
 `.now()`의 결과를 가지고 파싱하여 첫번째 필터로 다운받을 파일을 선택하고 두번째 필터로 압축을 풀 파일을 선택합니다.
 
+###anisub.end( string, string )
+`anisub.now('애니제목', '자막제작자')`  
+<br>
+종영된 작품들을 찾습니다.
+
 <br>
 
 ###etc
@@ -44,7 +47,7 @@ anisub.now( '애니' )
 `anisub.parser.post( url ) :Promise`  
 <br>
 `anisub.file.directory( path ) :string`  
-`anisub.file.download( url ) :Promise`  
+`anisub.file.download( url, filename ) :Promise`  
 `anisub.file.listZip( zipname ) :array`  
 `anisub.file.unZip( zipname, filename )`  
 `anisub.file.unLinkSync( filename )`  
