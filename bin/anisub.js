@@ -3,12 +3,12 @@
 const program = require('commander')
 const inquirer = require('inquirer')
 
-const anisub = require('../lib/anisub.js')
+const anisub = require('../lib/main.js')
 
 /**
  * CLI
  */
-program.version('0.1.0')
+program.version('0.2.0')
 
 program.command('now [name] [user]')
 .description('애니메이션의 최신화를 검색합니다')

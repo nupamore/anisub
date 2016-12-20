@@ -1,2 +1,2 @@
 
-module.exports = require('./lib/anisub.js')
+module.exports = require('./lib/main.js')

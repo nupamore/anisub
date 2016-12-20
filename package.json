@@ -4,7 +4,7 @@
   "description": "애니메이션 한국어 자막 다운로드 API",
   "main": "./index.js",
   "bin": {
-    "anisub": "./bin/cli.js"
+    "anisub": "./bin/anisub.js"
   },
   "author": {
     "name": "nupamore",
