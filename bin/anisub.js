@@ -3,17 +3,23 @@
 const program = require('commander')
 const inquirer = require('inquirer')
 
-const anisub = require('../lib/main.js')
+const anisub = require(__dirname + '/../lib/main.js')
 
 /**
  * CLI
  */
-program.version('0.2.0')
+program.version('0.2.1')
 
 program.command('now [name] [user]')
 .description('애니메이션의 최신화를 검색합니다')
 .action( (name, user) => {
   anisub.now(name, user)
+})
+
+program.command('end [name] [user]')
+.description('종영된 애니메이션을 검색합니다')
+.action( (name, user) => {
+  anisub.end(name, user)
 })
 
 program.command('down [name] [user] [filter]')

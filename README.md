@@ -20,6 +20,7 @@ Usage: anisub [options] [command]
   Commands:
 
     now [name] [user]            애니메이션의 최신화를 검색합니다
+    end [name] [user]            종영된 애니메이션을 검색합니다
     down [name] [user] [filter]  애니메이션의 자막을 다운로드합니다
 
   Options:

@@ -1,6 +1,6 @@
 {
   "name": "anisub",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "애니메이션 한국어 자막 다운로드 API",
   "main": "./index.js",
   "bin": {
@@ -25,13 +25,12 @@
     }
   ],
   "keywords": [
-    "anisub",
-    "애니",
     "애니메이션",
     "자막",
     "animation",
-    "subtitle",
-    "caption"
+    "smi",
+    "anissia",
+    "ohli"
   ],
   "dependencies": {
     "bluebird": "^3.4.6",
