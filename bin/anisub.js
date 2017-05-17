@@ -87,33 +87,24 @@ program.command('down [name] [user] [filter]')
     // 자막 파일 선택
     .then( filename => {
       b.filename = filename
-      if( !filename.match('.zip') ) return
+      if( !filename.match(/\.zip|\.rar|\.7z/) ) return
       else{
-        b.fileList = anisub.file.listZip(filename)
-          .reduce( (p,n) => p.concat(n.path), [] )
-
-        return prompt({
+        return anisub.file.list(filename)
+        .then(list => prompt({
           type: 'list',
           name: 'subtitle',
           message: '파일:',
-          choices: ['all'].concat(b.fileList),
-        })
+          choices: ['all'].concat(list),
+        }))
       }
     })
     .then( answer => {
       if( !answer ) return
-      // 전부 압축풀기
-      if( answer.subtitle == 'all' ){
-        b.fileList.forEach( file => {
-          anisub.file.unZip( b.filename, file )
-        })
-      }
-      // 하나만 풀기
-      else{
-        anisub.file.unZip( b.filename, answer.subtitle )
-      }
-
-      anisub.file.unlinkSync( b.filename )
+      const files = answer.subtitle == 'all'
+        ? null
+        : answer.subtitle
+      return anisub.file.unpack(b.filename, files)
+      .then(() => anisub.file.unlinkSync( b.filename ))
     })
     .catch( err => console.log(err) )
   }

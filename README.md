@@ -1,5 +1,5 @@
 # anisub
-애니메이션 한국어 자막 다운로드 API
+크로스플랫폼 애니메이션 한국어 자막 다운로드 CLI & API
 
 http://www.anissia.net/?m=1&b=4  
 http://ohli.moe/api  (종영 미지원)
@@ -12,6 +12,11 @@ http://ohli.moe/api  (종영 미지원)
 ## Installation
 
     $ npm install anisub -g
+
+    # ubuntu
+    sudo apt-get update
+    sudo apt-get install unar
+
 
 ## Usage
 <pre>
@@ -66,6 +71,6 @@ anisub.now( '애니제목' )
 <br>
 `anisub.file.directory( path ) :string`  
 `anisub.file.download( url, filename ) :Promise`  
-`anisub.file.listZip( zipname ) :array`  
-`anisub.file.unZip( zipname, filename )`  
+`anisub.file.list( zipname ) :Promise`  
+`anisub.file.unpack( zipname, files ) :Promise`  
 `anisub.file.unlinkSync( filename )`  

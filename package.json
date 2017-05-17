@@ -1,10 +1,13 @@
 {
   "name": "anisub",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "애니메이션 한국어 자막 다운로드 API",
   "main": "index.js",
   "bin": {
     "anisub": "bin/anisub.js"
+  },
+  "scripts": {
+    "postinstall": "node ./lib/unar.js"
   },
   "author": {
     "name": "nupamore",
@@ -40,6 +43,9 @@
     "inquirer": "^2.0.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
-    "unzip-mbcs": "^0.2.1"
+    "unpack-all": "0.0.4"
+  },
+  "devDependencies": {
+    "decompress": "^4.2.0"
   }
 }
