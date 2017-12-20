@@ -2,7 +2,7 @@
 
 const program = require('commander')
 const inquirer = require('inquirer')
-const version = JSON.parse(require('fs').readFileSync('package.json')).version
+const version = JSON.parse(require('fs').readFileSync(__dirname + '/../package.json')).version
 
 const anisub = require(__dirname + '/../lib/main.js')
 
