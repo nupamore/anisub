@@ -90,12 +90,15 @@ program.command('down [name] [user] [filter]')
       if( !filename.match(/\.zip|\.rar|\.7z/) ) return
       else{
         return anisub.file.list(filename)
-        .then(list => prompt({
-          type: 'list',
-          name: 'subtitle',
-          message: '파일:',
-          choices: ['all'].concat(list),
-        }))
+        .then(list => {
+          b.filelist = list
+          prompt({
+            type: 'list',
+            name: 'subtitle',
+            message: '파일:',
+            choices: ['all'].concat(list),
+          })
+        })
       }
     })
     .then( answer => {
@@ -103,7 +106,7 @@ program.command('down [name] [user] [filter]')
       const files = answer.subtitle == 'all'
         ? null
         : answer.subtitle
-      return anisub.file.unpack(b.filename, files)
+      return anisub.file.unpack(b.filename, files, list)
       .then(() => anisub.file.unlinkSync( b.filename ))
     })
     .catch( err => console.log(err) )

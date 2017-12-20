@@ -13,10 +13,6 @@ http://ohli.moe/api  (종영 미지원)
 
     $ npm install anisub -g
 
-    # ubuntu
-    sudo apt-get update
-    sudo apt-get install unar
-
 
 ## Usage
 <pre>
