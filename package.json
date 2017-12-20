@@ -1,6 +1,6 @@
 {
   "name": "anisub",
-  "version": "0.3.3",
+  "version": "0.3.6",
   "description": "애니메이션 한국어 자막 다운로드 API",
   "main": "index.js",
   "bin": {

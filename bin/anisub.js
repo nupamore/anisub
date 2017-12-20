@@ -2,13 +2,14 @@
 
 const program = require('commander')
 const inquirer = require('inquirer')
+const version = JSON.parse(require('fs').readFileSync('package.json')).version
 
 const anisub = require(__dirname + '/../lib/main.js')
 
 /**
  * CLI
  */
-program.version('0.3.3')
+program.version(version)
 
 program.command('now [name] [user]')
 .description('애니메이션의 최신화를 검색합니다')
@@ -122,6 +123,6 @@ program.command('down [name] [user] [filter]')
 })
 
 program.parse(process.argv)
-if(process.argv[process.argv.length-1].match('anisub.js')){
+if(process.argv[process.argv.length-1].match('anisub')){
   console.log('anisub --help')
 }
