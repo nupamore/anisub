@@ -8,7 +8,7 @@ const anisub = require(__dirname + '/../lib/main.js')
 /**
  * CLI
  */
-program.version('0.2.1')
+program.version('0.3.3')
 
 program.command('now [name] [user]')
 .description('애니메이션의 최신화를 검색합니다')
@@ -92,7 +92,7 @@ program.command('down [name] [user] [filter]')
         return anisub.file.list(filename)
         .then(list => {
           b.filelist = list
-          prompt({
+          return prompt({
             type: 'list',
             name: 'subtitle',
             message: '파일:',
@@ -106,8 +106,7 @@ program.command('down [name] [user] [filter]')
       const files = answer.subtitle == 'all'
         ? null
         : answer.subtitle
-      return anisub.file.unpack(b.filename, files, list)
-      .then(() => anisub.file.unlinkSync( b.filename ))
+      return anisub.file.unpack(b.filename, files, b.filelist)
     })
     .catch( err => console.log(err) )
   }
@@ -123,3 +122,6 @@ program.command('down [name] [user] [filter]')
 })
 
 program.parse(process.argv)
+if(process.argv[process.argv.length-1].match('anisub.js')){
+  console.log('anisub --help')
+}
